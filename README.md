@@ -27,7 +27,7 @@ A Raspberry Pi flight tracker that displays live ADS-B flight data on a Waveshar
 ┌─────────────────────────────────────────────────────────┐
 │                     Raspberry Pi                        │
 │                                                         │
-│  RTL-SDR dongle -> fr24feed/dump1090                   │
+│  RTL-SDR dongle -> fr24feed/dump1090                    │
 │                            │                            │
 │        http://localhost:8080/data/aircraft.json         │
 │                            │                            │
