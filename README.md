@@ -27,7 +27,7 @@ A Raspberry Pi flight tracker that displays live ADS-B flight data on a Waveshar
 ┌─────────────────────────────────────────────────────────┐
 │                     Raspberry Pi                        │
 │                                                         │
-│  RTL-SDR dongle → fr24feed/dump1090                    │
+│  RTL-SDR dongle -> fr24feed/dump1090                   │
 │                            │                            │
 │        http://localhost:8080/data/aircraft.json         │
 │                            │                            │
@@ -63,7 +63,7 @@ A Raspberry Pi flight tracker that displays live ADS-B flight data on a Waveshar
 │                                          │
 ├──────────────────────────────────────────┤
 │ British Airways                  BA0117  │  +25 px  (font 20 / 18)
-│ Boeing 737-800                  G-EUPT  │  +18 px  (font 16)
+│ Boeing 737-800                   G-EUPT  │  +18 px  (font 16)
 ├──────────────────────────────────────────┤
 │ London Heathrow Airport                  │  +22 px  (font 18, red)
 │ New York JFK Airport                     │  +22 px  (font 18, green)
