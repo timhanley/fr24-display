@@ -202,7 +202,7 @@ def load_airports():
 
 # ─── API fetchers ─────────────────────────────────────────────────────────────
 _HTTP = requests.Session()
-_HTTP.headers.update({'User-Agent': 'fr24-display/2.0 (github.com/fr24-display)'})
+_HTTP.headers.update({'User-Agent': 'fr24-display/2.0 (github.com/timhanley/fr24-display)'})
 
 def fetch_local_aircraft():
     """Fetch the live aircraft list from the local ADS-B receiver.
