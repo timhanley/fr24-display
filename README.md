@@ -25,22 +25,22 @@ A Raspberry Pi flight tracker that displays live ADS-B flight data on a Waveshar
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│                   Raspberry Pi                          │
+│                     Raspberry Pi                        │
 │                                                         │
 │  RTL-SDR dongle → fr24feed/dump1090                    │
-│                        │                               │
-│            http://localhost:8080/data/aircraft.json    │
-│                        │                               │
-│               fr24-display.py                          │
-│                        │                               │
-│         ┌──────────────┼──────────────┐                │
-│         ▼              ▼              ▼                │
-│    adsbdb.com    Planespotters   OpenFlights           │
-│  (reg/type/route)  (photos)    (airports/airlines)     │
-│         │              │              │                │
-│         └──────────────┴──────────────┘                │
-│                        │                               │
-│              Waveshare 2.4" LCD                        │
+│                            │                            │
+│        http://localhost:8080/data/aircraft.json         │
+│                            │                            │
+│                     fr24-display.py                     │
+│                            │                            │
+│          ┌─────────────────┼─────────────────┐          │
+│          ▼                 ▼                 ▼          │
+│     adsbdb.com     airport-data.com    OurAirports      │
+│  (reg/type/route)   (photos/info)      (airports)       │
+│          │                 │                 │          │
+│          └─────────────────┴─────────────────┘          │
+│                            │                            │
+│                  Waveshare 2.4" LCD                     │
 └─────────────────────────────────────────────────────────┘
 ```
 
