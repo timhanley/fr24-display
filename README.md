@@ -29,7 +29,7 @@ A Raspberry Pi flight tracker that displays live ADS-B flight data on a Waveshar
 │                                                         │
 │  RTL-SDR dongle -> fr24feed/dump1090                    │
 │                            │                            │
-│        http://localhost:8080/data/aircraft.json         │
+│     ADS-B JSON (HTTP URL or local file path)            │
 │                            │                            │
 │                     fr24-display.py                     │
 │                            │                            │
@@ -48,7 +48,7 @@ A Raspberry Pi flight tracker that displays live ADS-B flight data on a Waveshar
 
 | Source | Data provided | Cache TTL |
 |--------|--------------|-----------|
-| Local ADS-B (`localhost:8080`) | Position, altitude, speed, heading, callsign | Real-time (polled every `REFRESH_RATE` seconds) |
+| Local ADS-B (HTTP or file) | Position, altitude, speed, heading, callsign | Real-time (polled every `REFRESH_RATE` seconds) |
 | [adsbdb.com](https://www.adsbdb.com) | Registration, aircraft type, operator, origin & destination airports | 24 h (aircraft), 6 h (route) |
 | [airport-data.com](https://www.airport-data.com) | Aircraft photographs; model name fallback for unknown type codes | 24 h |
 | [OurAirports](https://ourairports.com/data/) | Full airport names (actively maintained community dataset) | Downloaded to `data/`, refreshed weekly |
@@ -147,13 +147,25 @@ Raspberry Pi GPIO header reference (odd pins on left, even on right):
 
 ### 1. Set up your ADS-B receiver
 
-Follow the [FlightRadar24 Build Your Own](https://www.flightradar24.com/build-your-own) guide to install and configure `fr24feed` and `dump1090` on your Pi. Once complete, verify the local feed is working:
+Follow the [FlightRadar24 Build Your Own](https://www.flightradar24.com/build-your-own) guide to install and configure `fr24feed` and `dump1090` on your Pi. Once complete, verify the local feed is working.
+
+If your setup exposes a web interface (the default for fr24feed/dump1090):
 
 ```bash
 curl http://localhost:8080/data/aircraft.json | python3 -m json.tool | head -30
 ```
 
-You should see a JSON response with an `aircraft` array.
+If you are running `dump1090-mutability` or `dump1090-fa`, the JSON is written directly to a file instead:
+
+```bash
+# dump1090-mutability
+cat /run/dump1090-mutability/aircraft.json | python3 -m json.tool | head -30
+
+# dump1090-fa (FlightAware)
+cat /run/dump1090-fa/aircraft.json | python3 -m json.tool | head -30
+```
+
+Either way, you should see a JSON response with an `aircraft` array.
 
 ### 2. Enable SPI
 
@@ -214,8 +226,13 @@ LON=your_longitude_here
 # Search radius in kilometres
 RADIUS_KM=50
 
-# Local ADS-B JSON feed URL
+# Local ADS-B data source — either an HTTP URL or a file path:
+#   HTTP (fr24feed / dump1090 with web interface):
 ADSB_URL=http://localhost:8080/data/aircraft.json
+#   File path (dump1090-mutability):
+# ADSB_URL=/run/dump1090-mutability/aircraft.json
+#   File path (dump1090-fa / FlightAware):
+# ADSB_URL=/run/dump1090-fa/aircraft.json
 
 # Seconds between display updates (minimum 15 recommended)
 REFRESH_RATE=30
