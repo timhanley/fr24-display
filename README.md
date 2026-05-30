@@ -181,7 +181,7 @@ sudo apt install -y python3-pip python3-venv python3-dev libopenblas-dev libjpeg
 
 ```bash
 cd /home/pi
-git clone https://github.com/yourusername/fr24-display.git
+git clone https://github.com/timhanley/fr24-display.git
 cd fr24-display
 ```
 
