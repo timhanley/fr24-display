@@ -139,8 +139,11 @@ _cache: dict = {}
 
 def cache_get(key):
     entry = _cache.get(key)
-    if entry and time.time() < entry['exp']:
+    if entry is None:
+        return None
+    if time.time() < entry['exp']:
         return entry['val']
+    del _cache[key]
     return None
 
 def cache_set(key, val, ttl):

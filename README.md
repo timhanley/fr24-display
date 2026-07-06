@@ -265,6 +265,7 @@ sudo nano /etc/systemd/system/fr24-display.service
 Description=FR24 Flight Display
 After=network-online.target fr24feed.service
 Wants=network-online.target
+StartLimitIntervalSec=0
 
 [Service]
 Type=simple
@@ -273,12 +274,18 @@ WorkingDirectory=/home/pi/fr24-display
 ExecStart=/home/pi/fr24-display/.venv/bin/python /home/pi/fr24-display/fr24-display.py
 Restart=on-failure
 RestartSec=10
+MemoryMax=1G
+OOMPolicy=stop
 
 [Install]
 WantedBy=multi-user.target
 ```
 
 > **`User=pi`** — Replace `pi` with your actual username if you set a different one during Raspberry Pi OS setup (newer images no longer default to `pi`). Likewise update the two `WorkingDirectory` / `ExecStart` paths to match.
+
+> **`StartLimitIntervalSec=0`** — Disables systemd's crash-loop protection (default: give up after 5 restarts in 10s). Without this, a burst of early failures (e.g. an SPI init race right after boot) can leave the unit permanently `failed` with no further restart attempts — the exact symptom `Restart=on-failure` alone is meant to prevent.
+
+> **`MemoryMax` / `OOMPolicy=stop`** — Caps the service's memory and lets systemd's cgroup-aware OOM handling stop and restart it cleanly if memory ever runs away, instead of the kernel's global OOM killer picking a victim process on this shared, memory-constrained Pi (it could just as easily kill `dump1090` or `fr24feed` instead).
 
 > **`After=fr24feed.service`** — This dependency only applies if you are using the FR24 Build Your Own software. If you are running standalone `dump1090` instead, replace it with `dump1090.service` (or remove it entirely — the script will simply retry on the next poll cycle if the feed isn't ready yet).
 
